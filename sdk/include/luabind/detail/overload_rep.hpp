@@ -42,7 +42,7 @@ namespace luabind { namespace detail
 	struct dummy_ {};
 
 	// this class represents a specific overload of a member-function.
-	struct LUABIND_API overload_rep : public overload_rep_base
+	struct overload_rep: public overload_rep_base
 	{
 		#define BOOST_PP_ITERATION_PARAMS_1 (4 \
 			, (0, LUABIND_MAX_ARITY, <luabind/detail/overload_rep.hpp>, 1))
@@ -61,10 +61,10 @@ namespace luabind { namespace detail
 			return true;
 		}
 
-		void set_fun(boost::function1<int, lua_State*, luabind::memory_allocator<boost::function_base> > const& f) 
+		void set_fun(boost::function1<int, lua_State*> const& f) 
 		{ call_fun = f; }
 
-		void set_fun_static(boost::function1<int, lua_State*, luabind::memory_allocator<boost::function_base> > const& f) 
+		void set_fun_static(boost::function1<int, lua_State*> const& f) 
 		{ call_fun_static = f; }
 
 		int call(lua_State* L, bool force_static_call) const;
@@ -74,24 +74,15 @@ namespace luabind { namespace detail
 	private:
 
 		// this is the normal function pointer that may be a virtual
-#pragma warning(push)
-#pragma warning(disable:4251)
-		boost::function1<int, lua_State*, luabind::memory_allocator<boost::function_base> > call_fun;
-#pragma warning(pop)
+		boost::function1<int, lua_State*> call_fun;
 
 		// this is the optional function pointer that is only set if
 		// the first function pointer is virtual. This must always point
 		// to a static function.
-#pragma warning(push)
-#pragma warning(disable:4251)
-		boost::function1<int, lua_State*, luabind::memory_allocator<boost::function_base> > call_fun_static;
-#pragma warning(pop)
+		boost::function1<int, lua_State*> call_fun_static;
 
 		// the types of the parameter it takes
-#pragma warning(push)
-#pragma warning(disable:4251)
-		vector_class<LUABIND_TYPE_INFO> m_params_;
-#pragma warning(pop)
+		std::vector<LUABIND_TYPE_INFO> m_params_;
 		// is true if the overload is const (this is a part of the signature)
 		bool m_const;
 	};

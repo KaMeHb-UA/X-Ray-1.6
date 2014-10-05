@@ -110,7 +110,7 @@ namespace luabind { namespace detail
           , Policies*)
         {
             BOOST_PP_REPEAT(BOOST_PP_ITERATION(), LUABIND_DECL, _)
-            return ::luabind::luabind_new<T>(BOOST_PP_ENUM(BOOST_PP_ITERATION(), LUABIND_PARAM, _));
+            return new T(BOOST_PP_ENUM(BOOST_PP_ITERATION(), LUABIND_PARAM, _));
         }
 /*
 		template<class T>
@@ -122,7 +122,7 @@ namespace luabind { namespace detail
 				// L is used, but the metrowerks compiler warns about this before expanding the macros
 				L = L;
 				BOOST_PP_REPEAT(BOOST_PP_ITERATION(), LUABIND_DECL, _)
-				return ::luabind::luabind_new<T>(BOOST_PP_ENUM(BOOST_PP_ITERATION(), LUABIND_PARAM, _));
+				return new T(BOOST_PP_ENUM(BOOST_PP_ITERATION(), LUABIND_PARAM, _));
 			}
 		};*/
 	};
@@ -140,7 +140,7 @@ namespace luabind { namespace detail
           , Policies*)
         {
             BOOST_PP_REPEAT(BOOST_PP_ITERATION(), LUABIND_DECL, _)
-            W* result = ::luabind::luabind_new<W>(BOOST_PP_ENUM(BOOST_PP_ITERATION(), LUABIND_PARAM, _));
+            W* result = new W(BOOST_PP_ENUM(BOOST_PP_ITERATION(), LUABIND_PARAM, _));
             static_cast<weak_ref&>(detail::wrap_access::ref(*result)) = ref;
             return result;
         }
@@ -152,7 +152,7 @@ namespace luabind { namespace detail
 			static T* call(lua_State* L, weak_ref const& ref, const constructor<BOOST_PP_ENUM_PARAMS(LUABIND_MAX_ARITY,A)>*, const Policies*)
 			{
 				BOOST_PP_REPEAT(BOOST_PP_ITERATION(), LUABIND_DECL, _)
-				T* o = ::luabind::luabind_new<T>(BOOST_PP_ENUM(BOOST_PP_ITERATION(), LUABIND_PARAM, _));
+				T* o = new T(BOOST_PP_ENUM(BOOST_PP_ITERATION(), LUABIND_PARAM, _));
 				static_cast<weak_ref&>(detail::wrap_access::ref(*o)) = ref;
 				return o;
 			}

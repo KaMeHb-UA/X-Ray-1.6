@@ -51,7 +51,7 @@ namespace luabind { namespace detail
 
 		struct cmp
 		{
-			bool operator()(const type_info* a, const type_info* b) const
+			bool operator()(const std::type_info* a, const std::type_info* b) const
 			{
 				return a->before(*b) != 0;
 			}
@@ -65,22 +65,9 @@ namespace luabind { namespace detail
 		
 		class_rep* find_class(LUABIND_TYPE_INFO info) const;
 
-		template <typename T>
-		inline void iterate_classes(lua_State *L, const T &f) const
-		{
-			CLASS_REGISTRY::const_iterator	I = m_classes.begin();
-			CLASS_REGISTRY::const_iterator	E = m_classes.end();
-			for ( ; I != E; ++I)
-				f(L,(*I).second);
-		}
-	
 	private:
-		typedef map_class<LUABIND_TYPE_INFO, class_rep*, cmp> CLASS_REGISTRY;
 
-#pragma warning(push)
-#pragma warning(disable:4251)
-		CLASS_REGISTRY m_classes;
-#pragma warning(pop)
+		std::map<LUABIND_TYPE_INFO, class_rep*, cmp> m_classes;
 
 		// this is a lua reference that points to the lua table
 		// that is to be used as meta table for all C++ class 
@@ -103,6 +90,7 @@ namespace luabind { namespace detail
 		// this metatable only contains a destructor
 		// for luabind::Detail::free_functions::function_rep
 		int m_lua_function_metatable;
+
 	};
 
 }}

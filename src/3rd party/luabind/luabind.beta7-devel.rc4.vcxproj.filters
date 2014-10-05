@@ -69,12 +69,15 @@
     <ClCompile Include="luabind\src\wrapper_base.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="library_linkage.cpp" />
-    <ClCompile Include="luabind_memory.cpp" />
+    <ClCompile Include="luabind\src\library_linkage.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="luabind\src\luabind_memory.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="pch.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="pch.h" />
     <ClInclude Include="..\..\..\sdk\include\luabind\adopt_policy.hpp">
       <Filter>include</Filter>
     </ClInclude>
@@ -312,5 +315,6 @@
     <ClInclude Include="..\..\..\sdk\include\luabind\detail\yes_no.hpp">
       <Filter>include\detail</Filter>
     </ClInclude>
+    <ClInclude Include="pch.h" />
   </ItemGroup>
 </Project>

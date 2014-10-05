@@ -58,19 +58,16 @@ namespace luabind { namespace detail
 
 	struct ltstr
 	{
-#pragma warning(push)
-#pragma warning(disable:4995)
 		bool operator()(const char* s1, const char* s2) const { return std::strcmp(s1, s2) < 0; }
-#pragma warning(pop)
 	};
 
-//	inline char* dup_string(const char* s)
-//	{
-//		std::size_t l = std::strlen(s);
-//		char* c = new char[l+1];
-//		std::copy(s, s+l+1, c);
-//		return c;
-//	}
+	inline char* dup_string(const char* s)
+	{
+		std::size_t l = std::strlen(s);
+		char* c = new char[l+1];
+		std::copy(s, s+l+1, c);
+		return c;
+	}
 
 	template<int N>
 	struct aligned 

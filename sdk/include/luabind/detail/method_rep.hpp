@@ -50,7 +50,7 @@ namespace luabind { namespace detail
 	{
 		void add_overload(const overload_rep& o)
 		{
-			vector_class<overload_rep>::iterator i = std::find(m_overloads.begin(), m_overloads.end(), o);
+			std::vector<overload_rep>::iterator i = std::find(m_overloads.begin(), m_overloads.end(), o);
 			if (i == m_overloads.end())
 			{
 				// if this overload does not exist, we can just add it to the end of the overloads list
@@ -62,7 +62,7 @@ namespace luabind { namespace detail
 				*i = o;
 			}
 		}
-		const vector_class<overload_rep>& overloads() const throw() { return m_overloads; }
+		const std::vector<overload_rep>& overloads() const throw() { return m_overloads; }
 
 		// this is a pointer to the string kept in class_rep::m_methods, and those strings are deleted
 		// at the end of the lua session.
@@ -75,7 +75,7 @@ namespace luabind { namespace detail
 		// this have to be write protected, since each time an overload is
 		// added it has to be checked for existence. add_overload() should
 		// be used.
-		vector_class<overload_rep> m_overloads;
+		std::vector<overload_rep> m_overloads;
 	};
 
 }}

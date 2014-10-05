@@ -34,12 +34,18 @@ namespace luabind
 {
 	struct value;
 
-	struct value_vector;
+	struct value_vector : public std::vector<value>
+	{
+		// a bug in intel's compiler forces us to declare these constructors explicitly.
+		value_vector();
+		virtual ~value_vector();
+		value_vector(const value_vector& v);
+		value_vector& operator,(const value& rhs);
+	};
 
 	struct value
 	{
-		friend class vector_class<value>;
-
+	friend class std::vector<value>;
 		template<class T>
 		value(const char* name, T v)
 			: name_(name)
@@ -49,41 +55,30 @@ namespace luabind
 		const char* name_;
 		int val_;
 
-		inline value_vector operator,(const value& rhs) const;
+		value_vector operator,(const value& rhs) const
+		{
+			value_vector v;
+
+			v.push_back(*this);
+			v.push_back(rhs);
+
+			return v;
+		}
 
 	private: 
 
 		value() {}
 	};
 
-	struct value_vector : public vector_class<value>
-	{
-		// a bug in intel's compiler forces us to declare these constructors explicitly.
-		value_vector();
-		virtual ~value_vector();
-		value_vector(const value_vector& v);
-		value_vector& operator,(const value& rhs);
-	};
-
-	inline value_vector value::operator,(const value& rhs) const
-	{
-		value_vector v;
-
-		v.push_back(*this);
-		v.push_back(rhs);
-
-		return v;
-	}
-
 	inline value_vector::value_vector()
-		: vector_class<value>()
+		: std::vector<value>()
 	{
 	}
 
 	inline value_vector::~value_vector() {}
 
 	inline value_vector::value_vector(const value_vector& rhs)
-		: vector_class<value>(rhs)
+		: std::vector<value>(rhs)
 	{
 	}
 
@@ -106,11 +101,6 @@ namespace luabind
 				return from_;
 			}
 			
-			enum_maker<From>& operator=(const enum_maker<From> &val)
-			{
-				return 	(*this = val);
-			}
-
 			From& operator[](const value_vector& values)
 			{
 				for (value_vector::const_iterator i = values.begin(); i != values.end(); ++i)

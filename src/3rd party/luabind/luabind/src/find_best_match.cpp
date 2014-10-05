@@ -71,7 +71,7 @@ void luabind::detail::find_exact_match(
   , size_t orep_size
   , int cmp_match
   , int num_params
-  , vector_class<const overload_rep_base*>& dest)
+  , std::vector<const overload_rep_base*>& dest)
 {
     for (int i = 0; i < num_overloads; ++i)
     {

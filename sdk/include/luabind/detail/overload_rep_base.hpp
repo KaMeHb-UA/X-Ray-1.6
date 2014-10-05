@@ -29,7 +29,7 @@
 namespace luabind { namespace detail
 {
 	// this class represents a specific overload of a member-function.
-	struct LUABIND_API overload_rep_base
+	struct overload_rep_base
 	{
 #if !defined(NDEBUG) && !defined(LUABIND_NO_ERROR_CHECKING)
 		overload_rep_base(): m_get_signature_fun(0), m_match_fun(0), m_arity(-1) {}
@@ -37,8 +37,8 @@ namespace luabind { namespace detail
         overload_rep_base(): m_match_fun(0), m_arity(-1) {}
 #endif
 
-        typedef boost::function1<int, lua_State*, luabind::memory_allocator<boost::function_base> > match_fun_t;
-		typedef void(*get_sig_ptr)(lua_State*, string_class&);
+        typedef boost::function1<int, lua_State*> match_fun_t;
+		typedef void(*get_sig_ptr)(lua_State*, std::string&);
 
 		inline int match(lua_State* L, int num_params) const
 		{
@@ -52,7 +52,7 @@ namespace luabind { namespace detail
 		}
 
 #ifndef LUABIND_NO_ERROR_CHECKING
-		inline void get_signature(lua_State* L, string_class& s) const 
+		inline void get_signature(lua_State* L, std::string& s) const 
 		{ 
 			m_get_signature_fun(L, s); 
 		}
@@ -70,10 +70,7 @@ namespace luabind { namespace detail
 #endif
 
 //		match_ptr m_match_fun;
-#pragma warning(push)
-#pragma warning(disable:4251)
 		match_fun_t m_match_fun;
-#pragma warning(pop)
 		int m_arity;
 	};
 

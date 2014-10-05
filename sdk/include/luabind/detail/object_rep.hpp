@@ -76,16 +76,10 @@ namespace luabind { namespace detail
 									// c++ base or 0.
 		class_rep* m_classrep; // the class information about this object's type
 		int m_flags;
-#pragma warning(push)
-#pragma warning(disable:4251)
 		detail::lua_reference m_lua_table_ref; // reference to lua table if this is a lua class
-#pragma warning(pop)
 		void(*m_destructor)(void*); // this could be in class_rep? it can't: see intrusive_ptr
 		int m_dependency_cnt; // counts dependencies
-#pragma warning(push)
-#pragma warning(disable:4251)
 		detail::lua_reference m_dependency_ref; // reference to lua table holding dependency references
-#pragma warning(pop)
 
 		// ======== the new way, separate object_rep from the holder
 //		instance_holder* m_instance;
@@ -96,8 +90,7 @@ namespace luabind { namespace detail
 	{
 		static void apply(void* ptr)
 		{
-			T*				temp = static_cast<T*>(ptr);
-			luabind_delete	(temp);
+			delete static_cast<T*>(ptr);
 		}
 	};
 

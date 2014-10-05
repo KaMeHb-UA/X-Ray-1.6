@@ -183,7 +183,7 @@ namespace luabind
 
 #ifndef LUABIND_NO_ERROR_CHECKING
 
-						if (converter.match(L, LUABIND_DECORATE_TYPE(Ret), -1) < 0)
+					if (converter.match(L, LUABIND_DECORATE_TYPE(Ret), -1) < 0)
 					{
 						assert(lua_gettop(L) == top + 1);
 #ifndef LUABIND_NO_EXCEPTIONS

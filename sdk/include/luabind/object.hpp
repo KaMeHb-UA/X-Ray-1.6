@@ -271,10 +271,7 @@ namespace luabind
 			}
 
 			luabind::object* m_obj;
-#pragma warning(push)
-#pragma warning(disable:4251)
 			detail::lua_reference m_key;
-#pragma warning(pop)
 		};
 
 
@@ -375,10 +372,7 @@ namespace luabind
 			}
 
 			luabind::object* m_obj;
-#pragma warning(push)
-#pragma warning(disable:4251)
 			detail::lua_reference m_key;
-#pragma warning(pop)
 		};
 
 
@@ -1077,10 +1071,7 @@ private:
 		}
 
 		mutable lua_State* m_state;
-#pragma warning(push)
-#pragma warning(disable:4251)
 		mutable detail::lua_reference m_ref;
-#pragma warning(pop)
 	};
 
 

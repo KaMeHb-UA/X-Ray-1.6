@@ -24,10 +24,6 @@
 #ifndef LUABIND_CONFIG_HPP_INCLUDED
 #define LUABIND_CONFIG_HPP_INCLUDED
 
-#if defined(__GNUC__) && __GNUC__ < 3
-#	define BOOST_NO_STRINGSTREAM
-#endif
-
 #include <boost/config.hpp>
 
 #ifdef BOOST_MSVC
@@ -35,8 +31,6 @@
 #else
 	#define LUABIND_ANONYMOUS_FIX
 #endif
-
-#define LUABIND_DONT_COPY_STRINGS
 
 #if defined (BOOST_MSVC) && (BOOST_MSVC <= 1200)
 
@@ -53,6 +47,7 @@ namespace std
 
 #endif
 
+
 #if defined (BOOST_MSVC) && (BOOST_MSVC <= 1300)
 	#define LUABIND_MSVC_TYPENAME
 #else
@@ -63,32 +58,21 @@ namespace std
 // registered. Must at least be 2
 #ifndef LUABIND_MAX_ARITY
 	#define LUABIND_MAX_ARITY 10
-#elif LUABIND_MAX_ARITY < 10
+#elif LUABIND_MAX_ARITY <= 1
 	#undef LUABIND_MAX_ARITY
-	#define LUABIND_MAX_ARITY 10
+	#define LUABIND_MAX_ARITY 2
 #endif
 
 // the maximum number of classes one class
 // can derive from
 // max bases must at least be 1
 #ifndef LUABIND_MAX_BASES
-	#define LUABIND_MAX_BASES 10
+	#define LUABIND_MAX_BASES 4
 #elif LUABIND_MAX_BASES <= 0
 	#undef LUABIND_MAX_BASES
 	#define LUABIND_MAX_BASES 1
 #endif
 
-#ifdef NDEBUG
-
-
-#	ifndef LUABIND_NO_ERROR_CHECKING
-#		define LUABIND_NO_ERROR_CHECKING
-#	endif // LUABIND_NO_ERROR_CHECKING
-
-#	define LUABIND_NO_EXCEPTIONS
-#	define BOOST_NO_EXCEPTIONS
-
-#endif // NDEBUG
 // LUABIND_NO_ERROR_CHECKING
 // define this to remove all error checks
 // this will improve performance and memory
@@ -123,11 +107,11 @@ namespace std
 // for all classes that you have type-info for.
 
 #ifndef LUABIND_TYPE_INFO
-#	define LUABIND_TYPE_INFO const type_info*
-#	define LUABIND_TYPEID(t) &typeid(t)
-#	define LUABIND_TYPE_INFO_EQUAL(i1, i2) *i1 == *i2
-#	define LUABIND_INVALID_TYPE_INFO &typeid(detail::null_type)
-#	include <typeinfo>
+	#define LUABIND_TYPE_INFO const std::type_info*
+	#define LUABIND_TYPEID(t) &typeid(t)
+	#define LUABIND_TYPE_INFO_EQUAL(i1, i2) *i1 == *i2
+	#define LUABIND_INVALID_TYPE_INFO &typeid(detail::null_type)
+#include <typeinfo>
 #endif
 
 // LUABIND_NO_EXCEPTIONS
@@ -138,14 +122,16 @@ namespace std
 // Luabind requires that no function called directly or indirectly
 // by luabind throws an exception (throwing exceptions through
 // C code has undefined behavior, lua is written in C).
-// #define LUABIND_NO_EXCEPTIONS
 
+// LUABIND_EXPORT
+// LUABIND_IMPORT
 // If you're building luabind as a dll on windows with devstudio
 // you can set LUABIND_EXPORT to __declspec(dllexport)
 // and LUABIND_IMPORT to __declspec(dllimport)
 
 // this define is set if we're currently building a luabind file
 // select import or export depending on it
+
 #ifdef LUABIND_BUILDING
 #	define LUABIND_API 		__declspec(dllexport)
 #else // #ifdef LUABIND_BUILDING
@@ -154,17 +140,19 @@ namespace std
 
 #include <luabind/luabind_memory.h>
 
-#define string_class			luabind::internal_string
-#define vector_class			luabind::internal_vector
-#define list_class				luabind::internal_list
-#define map_class				luabind::internal_map
-#define set_class				luabind::internal_set
-#define multimap_class			luabind::internal_multimap
-#define multiset_class			luabind::internal_multiset
-#ifdef BOOST_NO_STRINGSTREAM
-#	define strstream_class		luabind::internal_strstream
-#else // BOOST_NO_STRINGSTREAM
-#	define stringstream_class	luabind::internal_stringstream
-#endif // BOOST_NO_STRINGSTREAM
+/*#ifdef LUABIND_BUILDING
+	#ifdef LUABIND_EXPORT
+		#define LUABIND_API LUABIND_EXPORT
+	#else
+		#define LUABIND_API
+	#endif
+#else
+	#ifdef LUABIND_IMPORT
+		#define LUABIND_API LUABIND_IMPORT
+	#else
+		#define LUABIND_API
+	#endif
+#endif*/
 
 #endif // LUABIND_CONFIG_HPP_INCLUDED
+

@@ -38,7 +38,7 @@ namespace luabind
 	// from C++ failed with an error code. You will have to
 	// read the error code from the top of the lua stack
 	// the reason why this exception class doesn't contain
-	// the message itself is that string_class's copy constructor
+	// the message itself is that std::string's copy constructor
 	// may throw, if the copy constructor of an exception that is
 	// being thrown throws another exception, terminate will be called
 	// and the entire application is killed.
@@ -75,27 +75,18 @@ namespace luabind
 	typedef void(*error_callback_fun)(lua_State*);
 	typedef void(*cast_failed_callback_fun)(lua_State*, LUABIND_TYPE_INFO);
 
-	LUABIND_API void set_error_callback(error_callback_fun e);
-	LUABIND_API void set_cast_failed_callback(cast_failed_callback_fun c);
-	LUABIND_API error_callback_fun get_error_callback();
-	LUABIND_API cast_failed_callback_fun get_cast_failed_callback();
+	void set_error_callback(error_callback_fun e);
+	void set_cast_failed_callback(cast_failed_callback_fun c);
+	error_callback_fun get_error_callback();
+	cast_failed_callback_fun get_cast_failed_callback();
 
 #endif
 
 	typedef int(*pcall_callback_fun)(lua_State*);
-	LUABIND_API void set_pcall_callback(pcall_callback_fun e);
-	LUABIND_API pcall_callback_fun get_pcall_callback();
+	void set_pcall_callback(pcall_callback_fun e);
+	pcall_callback_fun get_pcall_callback();
 
-	typedef void(*pregister_callback_fun)(lua_State*,bool);
-	LUABIND_API void set_pregister_callback(pregister_callback_fun e);
-	LUABIND_API pregister_callback_fun get_pregister_callback();
 }
-
-#ifdef LUABIND_NO_EXCEPTIONS
-	namespace boost {
-	inline void throw_exception(const std::exception &){}
-	}
-#endif // LUABIND_NO_EXCEPTIONS
 
 #endif // LUABIND_ERROR_HPP_INCLUDED
 

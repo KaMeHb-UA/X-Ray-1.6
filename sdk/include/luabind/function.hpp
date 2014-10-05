@@ -79,17 +79,17 @@ namespace luabind
 				call_ptr call_fun;
 
 				// the types of the parameter it takes
-				vector_class<LUABIND_TYPE_INFO> m_params_;
+				std::vector<LUABIND_TYPE_INFO> m_params_;
 
                 char end;
 			};
 
-    		struct LUABIND_API function_rep
+    		struct function_rep
 			{
 				function_rep(const char* name): m_name(name) {}
 				void add_overload(const free_functions::overload_rep& o);
 
-				const vector_class<overload_rep>& overloads() const throw() { return m_overloads; }
+				const std::vector<overload_rep>& overloads() const throw() { return m_overloads; }
 
 				const char* name() const { return m_name; }
 
@@ -99,10 +99,7 @@ namespace luabind
 				// this have to be write protected, since each time an overload is
 				// added it has to be checked for existence. add_overload() should
 				// be used.
-#pragma warning(push)
-#pragma warning(disable:4251)
-				vector_class<free_functions::overload_rep> m_overloads;
-#pragma warning(pop)
+				std::vector<free_functions::overload_rep> m_overloads;
 			};
 
 
@@ -290,15 +287,15 @@ namespace luabind
 	template<class F, class Policies>
 	scope def(const char* name, F f, const Policies& policies)
 	{
-		return scope(luabind::auto_ptr<detail::registration>(
-			luabind_new<detail::function_commiter<F,Policies> >(name, f, policies)));
+		return scope(std::auto_ptr<detail::registration>(
+			new detail::function_commiter<F,Policies>(name, f, policies)));
 	}
 
 	template<class F>
 	scope def(const char* name, F f)
 	{
-		return scope(luabind::auto_ptr<detail::registration>(
-			luabind_new<detail::function_commiter<F,detail::null_type> >(
+		return scope(std::auto_ptr<detail::registration>(
+			new detail::function_commiter<F,detail::null_type>(
 				name, f, detail::null_type())));
 	}
 

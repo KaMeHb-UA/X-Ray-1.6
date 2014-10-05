@@ -31,7 +31,6 @@ namespace luabind
 	namespace
 	{
 		pcall_callback_fun pcall_callback = 0;
-		pregister_callback_fun pregister_callback = 0;
 #ifdef LUABIND_NO_EXCEPTIONS
 		error_callback_fun error_callback = 0;
 		cast_failed_callback_fun cast_failed_callback = 0;
@@ -74,16 +73,6 @@ namespace luabind
 	pcall_callback_fun get_pcall_callback()
 	{
 		return pcall_callback;
-	}
-
-	void set_pregister_callback(pregister_callback_fun e)
-	{
-		pregister_callback = e;
-	}
-
-	pregister_callback_fun get_pregister_callback()
-	{
-		return pregister_callback;
 	}
 
 }

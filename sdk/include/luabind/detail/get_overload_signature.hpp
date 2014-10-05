@@ -29,9 +29,9 @@ namespace luabind { namespace detail
 {
 
 	template<class It>
-	string_class get_overload_signatures(lua_State* L, It start, It end, string_class name)
+	std::string get_overload_signatures(lua_State* L, It start, It end, std::string name)
 	{
-		string_class s;
+		std::string s;
 		for (; start != end; ++start)
 		{
 			s += name;
@@ -44,7 +44,7 @@ namespace luabind { namespace detail
 
 #ifndef LUABIND_NO_ERROR_CHECKING
 
-	string_class get_overload_signatures_candidates(lua_State* L, vector_class<const overload_rep_base*>::iterator start, vector_class<const overload_rep_base*>::iterator end, string_class name);
+	std::string get_overload_signatures_candidates(lua_State* L, std::vector<const overload_rep_base*>::iterator start, std::vector<const overload_rep_base*>::iterator end, std::string name);
 
 #endif
 

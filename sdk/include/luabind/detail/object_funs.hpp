@@ -213,7 +213,7 @@ object f = class_<A>();
 
 A* ptr = object_cast<A*>(f(), adopt(_1));
 
-custom_delete	(ptr);
+delete ptr;
 
 */
 

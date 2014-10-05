@@ -249,7 +249,7 @@ namespace luabind { namespace detail {
 
     class_rep* class_registry::find_class(LUABIND_TYPE_INFO info) const
     {
-        map_class<LUABIND_TYPE_INFO, class_rep*, cmp>::const_iterator i(
+        std::map<LUABIND_TYPE_INFO, class_rep*, cmp>::const_iterator i(
             m_classes.find(info));
 
         if (i == m_classes.end()) return 0; // the type is not registered

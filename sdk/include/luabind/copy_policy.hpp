@@ -51,7 +51,7 @@ namespace luabind { namespace detail {
 			// to use an unregistered type
 			assert(crep && "you are trying to use an unregistered type");
 
-			T* copied_obj = luabind_new<T>(*ptr);
+			T* copied_obj = new T(*ptr);
 
 			// create the struct to hold the object
 			void* obj = lua_newuserdata(L, sizeof(object_rep));
@@ -76,7 +76,7 @@ namespace luabind { namespace detail {
 			// to use an unregistered type
 			assert(crep && "you are trying to use an unregistered type");
 
-			T* copied_obj = luabind_new<T>(ref);
+			T* copied_obj = new T(ref);
 
 			// create the struct to hold the object
 			void* obj = lua_newuserdata(L, sizeof(object_rep));

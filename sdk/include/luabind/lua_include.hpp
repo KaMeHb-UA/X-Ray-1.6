@@ -23,11 +23,12 @@
 #ifndef LUA_INCLUDE_HPP_INCLUDED
 #define LUA_INCLUDE_HPP_INCLUDED
 
-extern "C" {
-	#include <lua/lua.h>
-	#include <lua/lauxlib.h>
-	#include <lua/lualib.h>
-} // extern "C"
+extern "C"
+{
+	#include "lua/lua.h"
+	#include "lua/lauxlib.h"
+	#include "lua/lualib.h"
+}
 
 #endif
 

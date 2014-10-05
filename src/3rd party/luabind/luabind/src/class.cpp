@@ -28,7 +28,7 @@
 #include <luabind/class.hpp>
 
 #include <cstring>
-//#include <iostream>
+#include <iostream>
 
 namespace luabind { namespace detail {
     
@@ -48,18 +48,18 @@ namespace luabind { namespace detail {
 
         const char* m_name;
 
-        mutable list_class<detail::method_rep> m_methods;
+        mutable std::list<detail::method_rep> m_methods;
 
         // datamembers, some members may be readonly, and
         // only have a getter function
-        mutable map_class<const char*, detail::class_rep::callback, detail::ltstr> m_getters;
-        mutable map_class<const char*, detail::class_rep::callback, detail::ltstr> m_setters;
+        mutable std::map<const char*, detail::class_rep::callback, detail::ltstr> m_getters;
+        mutable std::map<const char*, detail::class_rep::callback, detail::ltstr> m_setters;
 
         // the operators in lua
-        mutable vector_class<detail::class_rep::operator_callback> m_operators[detail::number_of_operators]; 
-        mutable map_class<const char*, int, detail::ltstr> m_static_constants;
+        mutable std::vector<detail::class_rep::operator_callback> m_operators[detail::number_of_operators]; 
+        mutable std::map<const char*, int, detail::ltstr> m_static_constants;
 
-        mutable vector_class<class_base::base_desc> m_bases;
+        mutable std::vector<class_base::base_desc> m_bases;
         mutable detail::construct_rep m_constructor;
 
         void(*m_destructor)(void*);
@@ -160,11 +160,11 @@ namespace luabind { namespace detail {
 
         crep->m_static_constants.swap(m_static_constants);
 
-		typedef list_class<detail::method_rep> methods_t;
+		typedef std::list<detail::method_rep> methods_t;
 
 		detail::class_registry* registry = detail::class_registry::get_registry(L);
 
-        for (vector_class<class_base::base_desc>::iterator i = m_bases.begin();
+        for (std::vector<class_base::base_desc>::iterator i = m_bases.begin();
             i != m_bases.end(); ++i)
         {
             LUABIND_CHECK_STACK(L);
@@ -207,7 +207,7 @@ namespace luabind { namespace detail {
 		}
 
         // add methods
-        for (list_class<detail::method_rep>::iterator i 
+        for (std::list<detail::method_rep>::iterator i 
             = m_methods.begin(); i != m_methods.end(); ++i)
         {
             LUABIND_CHECK_STACK(L);
@@ -228,8 +228,8 @@ namespace luabind { namespace detail {
     // -- interface ---------------------------------------------------------
 
     class_base::class_base(char const* name)
-        : scope(luabind::auto_ptr<registration>(
-				m_registration = luabind_new<class_registration>(name))
+        : scope(std::auto_ptr<registration>(
+                m_registration = new class_registration(name))
           )
     {
     }
@@ -269,7 +269,7 @@ namespace luabind { namespace detail {
     }
 
     void class_base::add_getter(
-		const char* name, const boost::function2<int, lua_State*, int, luabind::memory_allocator<boost::function_base> >& g)
+        const char* name, const boost::function2<int, lua_State*, int>& g)
     {
         detail::class_rep::callback c;
         c.func = g;
@@ -282,13 +282,13 @@ namespace luabind { namespace detail {
 #ifdef LUABIND_NO_ERROR_CHECKING
     void class_base::add_setter(
         const char* name
-        , const boost::function2<int, lua_State*, int, luabind::memory_allocator<boost::function_base> >& s)
+        , const boost::function2<int, lua_State*, int>& s)
 #else
     void class_base::add_setter(
         const char* name
-        , const boost::function2<int, lua_State*, int, luabind::memory_allocator<boost::function_base> >& s
+        , const boost::function2<int, lua_State*, int>& s
         , int (*match)(lua_State*, int)
-        , void (*get_sig_ptr)(lua_State*, string_class&))
+        , void (*get_sig_ptr)(lua_State*, std::string&))
 #endif
     {
         detail::class_rep::callback c;
@@ -317,7 +317,7 @@ namespace luabind { namespace detail {
 
     void class_base::add_method(const char* name, const detail::overload_rep& o)
     {
-		typedef list_class<detail::method_rep> methods_t;
+		typedef std::list<detail::method_rep> methods_t;
 
 		methods_t::iterator m = std::find_if(
 			m_registration->m_methods.begin()
@@ -338,7 +338,7 @@ namespace luabind { namespace detail {
 #ifndef LUABIND_NO_ERROR_CHECKING
     void class_base::add_operator(
         int op_id,  int(*func)(lua_State*), int(*matcher)(lua_State*)
-        , void(*sig)(lua_State*, string_class&), int arity)
+        , void(*sig)(lua_State*, std::string&), int arity)
 #else
     void class_base::add_operator(
         int op_id,  int(*func)(lua_State*)
@@ -374,18 +374,18 @@ namespace luabind { namespace detail {
     }
 
 	template<class T>
-	void add_custom_name(T i, string_class& s) {}
+	void add_custom_name(T i, std::string& s) {}
 
-	void add_custom_name(type_info const* i, string_class& s)
+	void add_custom_name(std::type_info const* i, std::string& s)
 	{
 		s += " [";
 		s += i->name();
 		s += "]";
 	}
 
-    string_class get_class_name(lua_State* L, LUABIND_TYPE_INFO i)
+    std::string get_class_name(lua_State* L, LUABIND_TYPE_INFO i)
     {
-        string_class ret;
+        std::string ret;
 
 		assert(L);
 
