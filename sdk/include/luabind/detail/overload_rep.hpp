@@ -61,10 +61,10 @@ namespace luabind { namespace detail
 			return true;
 		}
 
-		void set_fun(boost::function1<int, lua_State*> const& f) 
+		void set_fun(boost::function1<int, lua_State*, luabind::memory_allocator<boost::function_base> > const& f)
 		{ call_fun = f; }
 
-		void set_fun_static(boost::function1<int, lua_State*> const& f) 
+		void set_fun_static(boost::function1<int, lua_State*, luabind::memory_allocator<boost::function_base> > const& f)
 		{ call_fun_static = f; }
 
 		int call(lua_State* L, bool force_static_call) const;

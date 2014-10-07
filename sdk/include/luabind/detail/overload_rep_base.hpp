@@ -37,7 +37,7 @@ namespace luabind { namespace detail
         overload_rep_base(): m_match_fun(0), m_arity(-1) {}
 #endif
 
-        typedef boost::function1<int, lua_State*> match_fun_t;
+		typedef boost::function1<int, lua_State*, luabind::memory_allocator<boost::function_base> > match_fun_t;
 		typedef void(*get_sig_ptr)(lua_State*, std::string&);
 
 		inline int match(lua_State* L, int num_params) const

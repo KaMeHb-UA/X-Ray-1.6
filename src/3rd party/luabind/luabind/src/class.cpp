@@ -269,7 +269,7 @@ namespace luabind { namespace detail {
     }
 
     void class_base::add_getter(
-        const char* name, const boost::function2<int, lua_State*, int>& g)
+		const char* name, const boost::function2<int, lua_State*, int, luabind::memory_allocator<boost::function_base> >& g)
     {
         detail::class_rep::callback c;
         c.func = g;
@@ -282,11 +282,11 @@ namespace luabind { namespace detail {
 #ifdef LUABIND_NO_ERROR_CHECKING
     void class_base::add_setter(
         const char* name
-        , const boost::function2<int, lua_State*, int>& s)
+		, const boost::function2<int, lua_State*, int, luabind::memory_allocator<boost::function_base> >& s)
 #else
     void class_base::add_setter(
         const char* name
-        , const boost::function2<int, lua_State*, int>& s
+		, const boost::function2<int, lua_State*, int, luabind::memory_allocator<boost::function_base> >& s
         , int (*match)(lua_State*, int)
         , void (*get_sig_ptr)(lua_State*, std::string&))
 #endif

@@ -792,7 +792,7 @@ namespace luabind { namespace detail
 #endif
 		}
 
-		inline void add_getter(const char* name, const boost::function2<int, lua_State*, int>& g)
+		inline void add_getter(const char* name, const boost::function2<int, lua_State*, int, luabind::memory_allocator<boost::function_base> >& g)
 		{
 			callback c;
 			c.func = g;
@@ -805,7 +805,7 @@ namespace luabind { namespace detail
 #endif
 		}
 
-		inline void add_setter(const char* name, const boost::function2<int, lua_State*, int>& s)
+		inline void add_setter(const char* name, const boost::function2<int, lua_State*, int, luabind::memory_allocator<boost::function_base> >& s)
 		{
 			callback c;
 			c.func = s;
@@ -1386,7 +1386,7 @@ namespace luabind { namespace detail
 
 		struct callback
 		{
-			boost::function2<int, lua_State*, int> func;
+			boost::function2<int, lua_State*, int, luabind::memory_allocator<boost::function_base> > func;
 			int pointer_offset;
 		};
 

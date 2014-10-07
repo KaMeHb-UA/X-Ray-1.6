@@ -215,7 +215,7 @@ namespace luabind { namespace detail
 		// this is used to describe setters and getters
 		struct callback
 		{
-			boost::function2<int, lua_State*, int> func;
+			boost::function2<int, lua_State*, int, luabind::memory_allocator<boost::function_base> > func;
 #ifndef LUABIND_NO_ERROR_CHECKING
 			int (*match)(lua_State*, int);
 
