@@ -34,7 +34,7 @@ namespace luabind
 {
 	struct value;
 
-	struct value_vector : public std::vector<value>
+	struct value_vector : public vector_class<value>
 	{
 		// a bug in intel's compiler forces us to declare these constructors explicitly.
 		value_vector();
@@ -45,7 +45,7 @@ namespace luabind
 
 	struct value
 	{
-	friend class std::vector<value>;
+	friend class vector_class<value>;
 		template<class T>
 		value(const char* name, T v)
 			: name_(name)
@@ -71,14 +71,14 @@ namespace luabind
 	};
 
 	inline value_vector::value_vector()
-		: std::vector<value>()
+		: vector_class<value>()
 	{
 	}
 
 	inline value_vector::~value_vector() {}
 
 	inline value_vector::value_vector(const value_vector& rhs)
-		: std::vector<value>(rhs)
+		: vector_class<value>(rhs)
 	{
 	}
 

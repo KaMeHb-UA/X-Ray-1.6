@@ -38,7 +38,7 @@ namespace luabind
 	// from C++ failed with an error code. You will have to
 	// read the error code from the top of the lua stack
 	// the reason why this exception class doesn't contain
-	// the message itself is that std::string's copy constructor
+	// the message itself is that string_class's copy constructor
 	// may throw, if the copy constructor of an exception that is
 	// being thrown throws another exception, terminate will be called
 	// and the entire application is killed.

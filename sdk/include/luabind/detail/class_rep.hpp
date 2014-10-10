@@ -54,7 +54,7 @@ namespace luabind { namespace detail
 {
 
 	struct method_rep;
-	LUABIND_API std::string stack_content_by_name(lua_State* L, int start_index);
+	LUABIND_API string_class stack_content_by_name(lua_State* L, int start_index);
 	int construct_lua_class_callback(lua_State* L);
 
 	struct class_registration;
@@ -85,7 +85,7 @@ namespace luabind { namespace detail
 		};
 
 #ifndef NDEBUG
-		std::string class_info_string(lua_State*) const;
+		string_class class_info_string(lua_State*) const;
 #endif
 
 		// destructor is a lua callback function that is hooked as garbage collector event on every instance
@@ -152,7 +152,7 @@ namespace luabind { namespace detail
 
 		void add_base_class(const base_info& binfo);
 
-		const std::vector<base_info>& bases() const throw() { return m_bases; }
+		const vector_class<base_info>& bases() const throw() { return m_bases; }
 
 		void set_type(LUABIND_TYPE_INFO t) { m_type = t; }
 		LUABIND_TYPE_INFO type() const throw() { return m_type; }
@@ -219,14 +219,14 @@ namespace luabind { namespace detail
 #ifndef LUABIND_NO_ERROR_CHECKING
 			int (*match)(lua_State*, int);
 
-			typedef void(*get_sig_ptr)(lua_State*, std::string&);
+			typedef void(*get_sig_ptr)(lua_State*, string_class&);
 			get_sig_ptr sig;
 #endif
 			int pointer_offset;
 		};
 
-		const std::map<const char*, callback, ltstr>& properties() const;
-		typedef std::map<const char*, callback, ltstr> property_map;
+		const map_class<const char*, callback, ltstr>& properties() const;
+		typedef map_class<const char*, callback, ltstr> property_map;
 
 		int holder_alignment() const
 		{
@@ -322,7 +322,7 @@ namespace luabind { namespace detail
 		// a list of info for every class this class derives from
 		// the information stored here is sufficient to do
 		// type casts to the base classes
-		std::vector<base_info> m_bases;
+		vector_class<base_info> m_bases;
 
 		// the class' name (as given when registered to lua with class_)
 		const char* m_name;
@@ -362,19 +362,19 @@ namespace luabind { namespace detail
 		// in the m_table_ref and m_default_table_ref
 		// for access. The struct contains the function-
 		// signatures for every overload
-		std::list<method_rep> m_methods;
+		list_class<method_rep> m_methods;
 
 		// datamembers, some members may be readonly, and
 		// only have a getter function
-		std::map<const char*, callback, ltstr> m_getters;
-		std::map<const char*, callback, ltstr> m_setters;
+		map_class<const char*, callback, ltstr> m_getters;
+		map_class<const char*, callback, ltstr> m_setters;
 
-		std::vector<operator_callback> m_operators[number_of_operators]; // the operators in lua
+		vector_class<operator_callback> m_operators[number_of_operators]; // the operators in lua
 
 		void(*m_destructor)(void*);
 		void(*m_const_holder_destructor)(void*);
 
-		std::map<const char*, int, ltstr> m_static_constants;
+		map_class<const char*, int, ltstr> m_static_constants;
 
 		// the first time an operator is invoked
 		// we check the associated lua table

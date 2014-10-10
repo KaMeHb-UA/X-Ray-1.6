@@ -79,7 +79,7 @@ namespace luabind
 				call_ptr call_fun;
 
 				// the types of the parameter it takes
-				std::vector<LUABIND_TYPE_INFO> m_params_;
+				vector_class<LUABIND_TYPE_INFO> m_params_;
 
                 char end;
 			};
@@ -89,7 +89,7 @@ namespace luabind
 				function_rep(const char* name): m_name(name) {}
 				void add_overload(const free_functions::overload_rep& o);
 
-				const std::vector<overload_rep>& overloads() const throw() { return m_overloads; }
+				const vector_class<overload_rep>& overloads() const throw() { return m_overloads; }
 
 				const char* name() const { return m_name; }
 
@@ -99,7 +99,7 @@ namespace luabind
 				// this have to be write protected, since each time an overload is
 				// added it has to be checked for existence. add_overload() should
 				// be used.
-				std::vector<free_functions::overload_rep> m_overloads;
+				vector_class<free_functions::overload_rep> m_overloads;
 			};
 
 

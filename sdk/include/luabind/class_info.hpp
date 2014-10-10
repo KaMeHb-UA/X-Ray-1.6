@@ -36,7 +36,7 @@ namespace luabind
 			: methods(L)
 		{}
 		
-		std::string name;
+		string_class name;
 		object methods;
 		object attributes;
 	};

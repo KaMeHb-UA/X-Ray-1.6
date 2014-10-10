@@ -51,7 +51,7 @@ namespace luabind { namespace detail {
         int offset = 0;
         if (LUABIND_TYPE_INFO_EQUAL(crep->type(), type_id)) return 0;
 
-        for (std::vector<class_rep::base_info>::const_iterator i = 
+        for (vector_class<class_rep::base_info>::const_iterator i = 
             crep->bases().begin(); i != crep->bases().end(); ++i)
         {
             int steps = implicit_cast(i->base, type_id, offset);

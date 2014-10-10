@@ -140,6 +140,19 @@ namespace std
 
 #include <luabind/luabind_memory.h>
 
+#define string_class			luabind::internal_string
+#define vector_class			luabind::internal_vector
+#define list_class				luabind::internal_list
+#define map_class				luabind::internal_map
+#define set_class				luabind::internal_set
+#define multimap_class			luabind::internal_multimap
+#define multiset_class			luabind::internal_multiset
+#ifdef BOOST_NO_STRINGSTREAM
+#	define strstream_class		luabind::internal_strstream
+#else // BOOST_NO_STRINGSTREAM
+#	define stringstream_class	luabind::internal_stringstream
+#endif // BOOST_NO_STRINGSTREAM
+
 /*#ifdef LUABIND_BUILDING
 	#ifdef LUABIND_EXPORT
 		#define LUABIND_API LUABIND_EXPORT

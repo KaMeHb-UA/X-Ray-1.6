@@ -82,7 +82,7 @@ namespace luabind { namespace detail
 		boost::function1<int, lua_State*> call_fun_static;
 
 		// the types of the parameter it takes
-		std::vector<LUABIND_TYPE_INFO> m_params_;
+		vector_class<LUABIND_TYPE_INFO> m_params_;
 		// is true if the overload is const (this is a part of the signature)
 		bool m_const;
 	};

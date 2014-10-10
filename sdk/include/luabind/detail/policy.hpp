@@ -317,9 +317,9 @@ namespace luabind { namespace detail
 	template<> struct is_primitive<const long double&>: boost::mpl::bool_<true> {};
 	template<> struct is_primitive<const bool&>: boost::mpl::bool_<true> {};
 
-	template<> struct is_primitive<const std::string&>: boost::mpl::bool_<true> {};
-	template<> struct is_primitive<std::string>: boost::mpl::bool_<true> {};
-	template<> struct is_primitive<const std::string>: boost::mpl::bool_<true> {};
+	template<> struct is_primitive<const string_class&>: boost::mpl::bool_<true> {};
+	template<> struct is_primitive<string_class>: boost::mpl::bool_<true> {};
+	template<> struct is_primitive<const string_class>: boost::mpl::bool_<true> {};
 
 
 	template<class Direction> struct primitive_converter;
@@ -353,7 +353,7 @@ namespace luabind { namespace detail
 		void apply(lua_State* L, double v) { lua_pushnumber(L, (lua_Number)v); }
 		void apply(lua_State* L, long double v) { lua_pushnumber(L, (lua_Number)v); }
 		void apply(lua_State* L, const char* v) { lua_pushstring(L, v); }
-		void apply(lua_State* L, const std::string& v)
+		void apply(lua_State* L, const string_class& v)
 		{ lua_pushlstring(L, v.data(), v.size()); }
 		void apply(lua_State* L, bool b) { lua_pushboolean(L, b); }
 	};
@@ -407,9 +407,9 @@ namespace luabind { namespace detail
 		PRIMITIVE_CONVERTER(double) { return static_cast<double>(lua_tonumber(L, index)); }
 		PRIMITIVE_MATCHER(double) { if (lua_type(L, index) == LUA_TNUMBER) return 0; else return -1; }
 
-		PRIMITIVE_CONVERTER(std::string)
-		{ return std::string(lua_tostring(L, index), lua_strlen(L, index)); }
-		PRIMITIVE_MATCHER(std::string) { if (lua_type(L, index) == LUA_TSTRING) return 0; else return -1; }
+		PRIMITIVE_CONVERTER(string_class)
+		{ return string_class(lua_tostring(L, index), lua_strlen(L, index)); }
+		PRIMITIVE_MATCHER(string_class) { if (lua_type(L, index) == LUA_TSTRING) return 0; else return -1; }
 
 		PRIMITIVE_CONVERTER(luabind::object)
 		{
@@ -471,10 +471,10 @@ namespace luabind { namespace detail
 		unsigned char apply(lua_State* L, detail::by_value<const unsigned char>, int index) { return static_cast<char>(lua_tonumber(L, index)); }
 		unsigned long apply(lua_State* L, detail::by_value<const unsigned long>, int index) { return static_cast<long>(lua_tonumber(L, index)); }
 		
-//		std::string apply(lua_State* L, detail::by_value<std::string>, int index) { return static_cast<const char*>(lua_tostring(L, index)); }
-//		const std::string apply(lua_State* L, detail::by_value<const std::string>, int index) { return static_cast<const char*>(lua_tostring(L, index)); }
-//		const std::string apply(lua_State* L, detail::by_const_reference<std::string>, int index) { return static_cast<const char*>(lua_tostring(L, index)); }
-		PRIMITIVE_CONVERTER(std::string) { return static_cast<const char*>(lua_tostring(L, index)); }
+//		string_class apply(lua_State* L, detail::by_value<string_class>, int index) { return static_cast<const char*>(lua_tostring(L, index)); }
+//		const string_class apply(lua_State* L, detail::by_value<const string_class>, int index) { return static_cast<const char*>(lua_tostring(L, index)); }
+//		const string_class apply(lua_State* L, detail::by_const_reference<string_class>, int index) { return static_cast<const char*>(lua_tostring(L, index)); }
+		PRIMITIVE_CONVERTER(string_class) { return static_cast<const char*>(lua_tostring(L, index)); }
 
 		luabind::object apply(lua_State* L, detail::by_value<luabind::object>, int index)
 		{
@@ -505,8 +505,8 @@ namespace luabind { namespace detail
 		static int match(lua_State* L, detail::by_value<unsigned short>, int index) { if (lua_type(L, index) == LUA_TNUMBER) return 0; else return -1;}
 		static int match(lua_State* L, detail::by_value<unsigned char>, int index) { if (lua_type(L, index) == LUA_TNUMBER) return 0; else return -1;}
 		static int match(lua_State* L, detail::by_value<unsigned long>, int index) { if (lua_type(L, index) == LUA_TNUMBER) return 0; else return -1;}
-		static int match(lua_State* L, detail::by_value<std::string>, int index) { if (lua_type(L, index) == LUA_TSTRING) return 0; else return -1;}
-		static int match(lua_State* L, detail::by_value<const std::string>, int index) { if (lua_type(L, index) == LUA_TSTRING) return 0; else return -1;}
+		static int match(lua_State* L, detail::by_value<string_class>, int index) { if (lua_type(L, index) == LUA_TSTRING) return 0; else return -1;}
+		static int match(lua_State* L, detail::by_value<const string_class>, int index) { if (lua_type(L, index) == LUA_TSTRING) return 0; else return -1;}
 		static int match(lua_State*, detail::by_value<luabind::object>, int) { return std::numeric_limits<int>::max() - 1; }
 		static int match(lua_State*, detail::by_value<const luabind::object>, int) { return std::numeric_limits<int>::max() - 1; }
 

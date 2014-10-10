@@ -38,7 +38,7 @@ namespace luabind { namespace detail
 #endif
 
 		typedef boost::function1<int, lua_State*, luabind::memory_allocator<boost::function_base> > match_fun_t;
-		typedef void(*get_sig_ptr)(lua_State*, std::string&);
+		typedef void(*get_sig_ptr)(lua_State*, string_class&);
 
 		inline int match(lua_State* L, int num_params) const
 		{
@@ -52,7 +52,7 @@ namespace luabind { namespace detail
 		}
 
 #ifndef LUABIND_NO_ERROR_CHECKING
-		inline void get_signature(lua_State* L, std::string& s) const 
+		inline void get_signature(lua_State* L, string_class& s) const 
 		{ 
 			m_get_signature_fun(L, s); 
 		}

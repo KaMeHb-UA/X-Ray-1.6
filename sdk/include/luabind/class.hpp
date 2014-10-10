@@ -258,7 +258,7 @@ namespace luabind
 		// prints the types of the values on the stack, in the
 		// range [start_index, lua_gettop()]
 
-		LUABIND_API std::string stack_content_by_name(lua_State* L, int start_index);
+		LUABIND_API string_class stack_content_by_name(lua_State* L, int start_index);
 	
 		struct LUABIND_API create_class
 		{
@@ -728,7 +728,7 @@ namespace luabind
 				const char* name
 				, const boost::function2<int, lua_State*, int, luabind::memory_allocator<boost::function_base> >& s
 				, int (*match)(lua_State*, int)
-				, void (*get_sig_ptr)(lua_State*, std::string&));
+				, void (*get_sig_ptr)(lua_State*, string_class&));
 #endif
 
 			void add_base(const base_desc& b);
@@ -741,7 +741,7 @@ namespace luabind
 				,  int(*func)(lua_State*)
 				, int(*matcher)(lua_State*)
 				, void(*sig)(lua_State*
-				, std::string&)
+				, string_class&)
 				, int arity);
 #else
 			void add_operator(
