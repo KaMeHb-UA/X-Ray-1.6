@@ -42,7 +42,7 @@ namespace luabind { namespace detail
 	struct dummy_ {};
 
 	// this class represents a specific overload of a member-function.
-	struct overload_rep: public overload_rep_base
+	struct LUABIND_API overload_rep : public overload_rep_base
 	{
 		#define BOOST_PP_ITERATION_PARAMS_1 (4 \
 			, (0, LUABIND_MAX_ARITY, <luabind/detail/overload_rep.hpp>, 1))
@@ -74,12 +74,12 @@ namespace luabind { namespace detail
 	private:
 
 		// this is the normal function pointer that may be a virtual
-		boost::function1<int, lua_State*> call_fun;
+		boost::function1<int, lua_State*, luabind::memory_allocator<boost::function_base> > call_fun;
 
 		// this is the optional function pointer that is only set if
 		// the first function pointer is virtual. This must always point
 		// to a static function.
-		boost::function1<int, lua_State*> call_fun_static;
+		boost::function1<int, lua_State*, luabind::memory_allocator<boost::function_base> > call_fun_static;
 
 		// the types of the parameter it takes
 		vector_class<LUABIND_TYPE_INFO> m_params_;

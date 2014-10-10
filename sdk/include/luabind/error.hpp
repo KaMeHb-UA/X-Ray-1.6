@@ -75,18 +75,24 @@ namespace luabind
 	typedef void(*error_callback_fun)(lua_State*);
 	typedef void(*cast_failed_callback_fun)(lua_State*, LUABIND_TYPE_INFO);
 
-	void set_error_callback(error_callback_fun e);
-	void set_cast_failed_callback(cast_failed_callback_fun c);
-	error_callback_fun get_error_callback();
-	cast_failed_callback_fun get_cast_failed_callback();
+	LUABIND_API void set_error_callback(error_callback_fun e);
+	LUABIND_API void set_cast_failed_callback(cast_failed_callback_fun c);
+	LUABIND_API error_callback_fun get_error_callback();
+	LUABIND_API cast_failed_callback_fun get_cast_failed_callback();
 
 #endif
 
 	typedef int(*pcall_callback_fun)(lua_State*);
-	void set_pcall_callback(pcall_callback_fun e);
-	pcall_callback_fun get_pcall_callback();
+	LUABIND_API void set_pcall_callback(pcall_callback_fun e);
+	LUABIND_API pcall_callback_fun get_pcall_callback();
 
 }
+
+#ifdef LUABIND_NO_EXCEPTIONS
+namespace boost {
+	inline void throw_exception(const std::exception &){}
+}
+#endif // LUABIND_NO_EXCEPTIONS
 
 #endif // LUABIND_ERROR_HPP_INCLUDED
 
