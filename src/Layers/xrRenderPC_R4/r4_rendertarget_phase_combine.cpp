@@ -332,6 +332,14 @@ void	CRenderTarget::phase_combine	()
          HW.pDevice->ResolveSubresource( rt_Generic_1_r->pTexture->surface_get(), 0, rt_Generic_1->pTexture->surface_get(), 0, DXGI_FORMAT_R8G8B8A8_UNORM );
    }
    */
+    RCache.set_Stencil(FALSE);
+
+    //FXAA
+    if (ps_r3_fxaa){
+        PIX_EVENT(FXAA);
+        phase_fxaa();
+        RCache.set_Stencil(FALSE);
+    }
 
 	// PP enabled ?
 	//	Render to RT texture to be able to copy RT even in windowed mode.
@@ -355,7 +363,6 @@ void	CRenderTarget::phase_combine	()
 	//. u_setrt				( Device.dwWidth,Device.dwHeight,HW.pBaseRT,NULL,NULL,HW.pBaseZB);
 	RCache.set_CullMode		( CULL_NONE )	;
 	RCache.set_Stencil		( FALSE		)	;
-
 
 	if (1)	
 	{
@@ -421,7 +428,9 @@ void	CRenderTarget::phase_combine	()
 	RCache.set_Stencil		(FALSE);
 
 	//	if FP16-BLEND !not! supported - draw flares here, overwise they are already in the bloom target
-	/* if (!RImplementation.o.fp16_blend)*/	g_pGamePersistent->Environment().RenderFlares	();	// lens-flares
+	/* if (!RImplementation.o.fp16_blend)*/	
+    PIX_EVENT(LENS_FLARES);
+    g_pGamePersistent->Environment().RenderFlares	();	// lens-flares
 
 	//	PP-if required
 	if (PP_Complex)		
@@ -430,7 +439,7 @@ void	CRenderTarget::phase_combine	()
 		phase_pp		();
 	}
 
-	//	Re-adapt luminance
+    //	Re-adapt luminance
 	RCache.set_Stencil		(FALSE);
 
 	//*** exposure-pipeline-clear
@@ -439,6 +448,7 @@ void	CRenderTarget::phase_combine	()
 		t_LUM_src->surface_set		(NULL);
 		t_LUM_dest->surface_set		(NULL);
 	}
+
 
 #ifdef DEBUG
 	RCache.set_CullMode	( CULL_CCW );
