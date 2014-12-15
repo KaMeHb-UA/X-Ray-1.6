@@ -16,6 +16,14 @@ nitrocaster: Pavel Kovalenko
 - get the entire solution compiled with ForceConformanceInForLoopScope=false
 - get rid of atimgpu, use amd ags instead (will also eliminate LNK4098)
 - scan solution with PVS-Studio and fix found bugs
+* get rid of any borland specific code
+  * write new or use existing controls instead of ones from VCL/ElPack/AlexMX
+  * adopt/rewrite editors
+    - LevelEditor
+    - ActorEditor
+    - ShaderEditor
+    - ParticleEditor
+    * PPEditor
 - Modules
   - subdivide xrGame into multiple modules (so changed code could be compiled faster)
   - merge xrCPU_Pipe into xrCore
@@ -34,28 +42,15 @@ nitrocaster: Pavel Kovalenko
   - decouple hxGrid
 - bugs/issues
   - generic
-    - stackoverflow when starting with too long command line
-    - stackoverflow when game directory contains too many files (_alloca)
-      - can me improved (get rid of recursive directory traversal)
-      - exclude $app_data_root$/logs and $app_data_root$/screenshots from index
-    - GetColorFromText bug
     - (bytes_need<=mSize) && vl_Count
-    - "! tab named [1] doesnt exist"
   - UI
-    - clip cursor in windowed mode with enabled input capture
+    c clip cursor in windowed mode with enabled input capture
     - dragging music volume slider doesn't make any effect until one presses 'Apply' button
+    ? save MP settings
   - core
-    - buffer overflow when copying command line to Core.Params
     - misplaced arguments in calls to xrDebug::backend
   - multiplayer
-    - xrGameSpy: fix master server name (gamespy is down)
     - dedicated server
-      - vulnerabilities (verify)
-        c dirtysky
-        + stalkazz
-        + stalkerbof
-        + stalkerboom
-    + voting for weather: rainy/cloudy buttons are mixed up
   - render
     - when d3d compiler fails to compile some shader, it displays message
       "Your video card doesn't meet game requirements ..." even if GPU actually meets game requirements (feature level)
@@ -63,6 +58,8 @@ nitrocaster: Pavel Kovalenko
     - alpha transparency works improperly - objects like steelworks and meshes quickly lose details and become
       invisible when camera moves away (r1 looks better)
     - R1: incorrect sun path
+    - make saturation dependent on exposure (see ArmA series)
+    - improve night vision
   - physics
     - falling actor can continue being in falling state under specific conditions
   - plugins
@@ -71,10 +68,10 @@ nitrocaster: Pavel Kovalenko
   - common/unsorted
     - review and refactor code
     - fix log messages format (normally, the 'color' character should be followed by a space)
+    - add registry entries (player name, cdkey, etc) if not exist
   - UI
     - close sleep dialog by ESC key
   - multiplayer
-    - use GSC server instead of GameSpy one
     - ipv6 support
     - get rid of DirectPlay
     - log suspicious packets and kick/ban its senders after X attempts
