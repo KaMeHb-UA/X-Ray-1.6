@@ -9,7 +9,5 @@
 * Инструкции по сборке можно найти [здесь](https://github.com/BASSTeam/X-Ray-1.6/blob/working/doc/howto/build.txt) (пока **не** обновлённая база кода).
 * Если вы нашли ошибку или оптимизацию решения, оставьте [замечание] (https://github.com/BASSTeam/X-Ray-1.6/issues).
 * Пожалуйста, перейдите на нашу [Wiki](https://github.com/avoitishin/xray-16/wiki) страницу для подробного описания изменений и другой полезной информации.
-
-  
 ---
 Надеемся, наша работа будет оценена по достоинству! Просто проверьте [список задач](https://github.com/BASSTeam/X-Ray-1.6/blob/master/doc/design/task_list.txt) и [пульс разработки](https://github.com/BASSTeam/X-Ray-1.6/tree/master/doc/procedure). (**не** обновлено)
